@@ -1,0 +1,287 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(194, 194, 154);
+}
+.inpage{
+  font-weight: bold;
+  background-color: blue;
+}
+.page{
+  color:#E5E4E2;
+  font-weight: bolder;
+  background-color: #FFD700;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-family: 'Times New Roman', Times, serif;
+  text-align: center;
+}
+.head{
+  font-weight: bolder; 
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size:large;
+  border-bottom: 1px solid black;
+  text-align: center;
+  color: #228b22;
+  background-color: #b2dfe5;
+  height: 2%;
+  text-shadow: 
+        -1px -1px 0 rgba(0, 0, 0, 0.443),  /* Top left */
+         1px -1px 0 rgba(0, 0, 0, 0.443),  /* Top right */
+        -1px  1px 0 rgba(0, 0, 0, 0.443),  /* Bottom left */
+         1px  1px 0 rgba(0, 0, 0, 0.443); 
+}
+.na{
+  background-color: #E5E4E2;
+  border-bottom: 1px solid rgb(43, 33, 33);
+  margin: 0px;
+
+}
+
+.max_h {
+  min-height: 100vh; /* Full viewport height */
+}
+.home-body{
+     
+      background: linear-gradient(to bottom, #E5E4E2, #FFD700); 
+  }
+
+.home_div input{
+  border: 1px solid black;
+  border-radius: 30px;
+  margin-bottom: 10px;
+}
+
+.btn-1{
+  background-color: green;
+  border: 1px solid rgb(83, 91, 31);
+  border-radius: 20px;
+  justify-items: center;
+}
+
+
+.h-main{
+  background-color: #f5deb3;
+  line-height: 1.1;
+}
+
+.sym{
+  font-size: 12px;
+  font-weight: bold;
+  color: rgb(2, 6, 8);
+  background-color: #ededed;
+  border-radius: 10px;
+  padding: 0px 6px;
+  height: 22px;
+  line-height: 1.7;
+  font-style:italic;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.sym:hover{
+  color: black;
+  cursor: pointer;
+}
+.ltp{
+  font-size: 13px;
+  color: #004d61;
+  text-align: right;
+  font-weight: bold;
+  margin-right: 10px;
+  margin-left: 5px;
+}
+.symbol-tab{
+  background-color: #4a4e69;
+  
+  border: 1px solid red;
+  border-radius: 12px;
+  padding:0px 4px;
+}
+.h_1{
+  color: #333333;
+}
+.h_1:hover{
+  background-color: aquamarine;
+  color:#4682b4;
+}
+
+
+
+.home_div {
+  position: relative; /* Ensure suggestions are positioned relative to this container */
+  width: 300px; /* Set a fixed width for the search box */
+  margin: auto; /* Center the search box */
+  margin-top: 20px; /* Space above the search box */
+}
+
+.search-input {
+  width: 100%; /* Full width of the container */
+  padding: 12px; /* Padding for better aesthetics */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 25px; /* Rounded corners */
+  font-size: 16px; /* Font size for the input */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: border-color 0.3s ease; /* Smooth transition for border color */
+}
+
+.search-input:focus {
+  border-color: #333333; /* Change border color on focus */
+  outline: none; /* Remove outline */
+}
+
+.suggestions-list {
+  list-style-type: none; /* Remove default list styling */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+  border: 1px solid #ccc; /* Border for better visibility */
+  border-radius: 4px; /* Round corners */
+  max-height: 200px; /* Set maximum height */
+  overflow-y: auto; /* Enable scrolling if overflow occurs */
+  background-color: #fff; /* Background color */
+  width: 100%; /* Full width */
+  z-index: 1; /* Ensure it appears on top */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+  position: absolute; /* Position suggestions absolutely */
+  top: 50px; /* Position it right below the search input */
+  left: 0; /* Align it to the left */
+}
+
+.suggestion-item {
+  padding: 10px; /* Padding for list items */
+  cursor: pointer; /* Pointer cursor for better UX */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.suggestion-item:hover {
+  background-color: #f0f0f0; /* Highlight on hover */
+}
+
+
+.sym {
+  position: relative;
+  /* display: inline-block; */
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 100px;  /* Smaller width */
+  background-color: #333;  /* Darker background for a cleaner look */
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;  /* Smaller border radius */
+  padding: 4px;  /* Smaller padding */
+  font-size: 12px;  /* Smaller font size */
+  position: absolute;
+  z-index: 1;
+  bottom: 110%;  /* A bit closer to the element */
+  left: 50%;
+  transform: translateX(-50%);  /* Center horizontally */
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  
+  /* Tooltip arrow */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -4px;
+    border-width: 4px;  /* Smaller arrow */
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+  }
+}
+
+.sym:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+.td_width{
+  width: 50px;
+  background-color: #FFD700;
+}
+.scroll_row {
+  position: relative;
+  font-size: 12px;
+  max-width: 120px; /* Limit the width of the cell */
+  overflow-x: scroll; /* Enable horizontal scrolling */
+  overflow-y: hidden; /* Prevent vertical scrolling */
+  white-space: nowrap; /* Prevent text from wrapping */
+  cursor: pointer; /* Shows that the item is interactive */
+  position: sticky;
+  border: 1px solid #d3d3d3;
+  /* padding: 5px 0px; */
+}
+.div-filter {
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+  padding: 20px; /* Optional padding */
+  border: 1px solid #d3d3d3; /* Border for the filter box */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  margin-top: 12vh;
+
+}
+.filter-input{
+  height: 27vh;
+  width: 70vw;
+}
+.words-list {
+    list-style-type: none; /* Remove default list styling */
+    padding: 0; /* Remove default padding */
+    margin-top: 10px; /* Space above the list */
+    border: 1px solid #d3d3d3; /* Optional border */
+    background-color: #ffffff; /* Background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    border-radius: 4px; /* Rounded corners */
+}
+
+.words-item {
+    padding: 8px 12px; /* Padding for each word item */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.words-item:hover {
+    background-color: #f1f1f1; /* Change background on hover */
+}
+
+
+.words-grid-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Five equal columns */
+    gap: 10px; /* Space between grid items */
+    margin-top: 10px; /* Space above the grid */
+}
+
+.word-item {
+    background-color: #f9f9f9; /* Light background for each word */
+    padding: 10px; /* Padding around the words */
+    border: 1px solid #ddd; /* Light border around the words */
+    border-radius: 4px; /* Rounded corners */
+    text-align: center; /* Center text */
+}
+
+
+.words-flex-container {
+  display: flex;
+  flex-wrap: wrap; /* Allows items to wrap to the next line */
+  gap: 10px; /* Space between items */
+  margin-top: 10px; /* Space above the flex container */
+}
+
+.word-item {
+  background-color: #f9f9f9; /* Light background for each word */
+  padding: 10px; /* Padding around the words */
+  border: 1px solid #ddd; /* Light border around the words */
+  border-radius: 4px; /* Rounded corners */
+  flex: 1 1 calc(20% - 10px); /* Grow and shrink, with a base width of 20% minus the gap */
+  text-align: center; /* Center text */
+}
+
+
+.main_page{
+  background-color: #aec6cf;
+}
