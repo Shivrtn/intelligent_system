@@ -25,7 +25,7 @@
     min-width: 60px;
     font-size: 10px;
     max-width: 90px;
-    overflow-x: scroll;
+    /* overflow-x: scroll; */
     white-space: nowrap;
 }
 
@@ -48,7 +48,7 @@
     color: #333333;
     font-weight: bold;
     max-width: 100px;
-    overflow-x: scroll;
+    /* overflow-x: scroll; */
     z-index: 11;
     width: auto;
 }

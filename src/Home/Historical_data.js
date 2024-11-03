@@ -11,17 +11,18 @@ import {
 } from 'recharts';
 
 function Historical_data({ data }) {
-  // Prepare data for the chart
-  const chartData = Object.entries(data).map(([date, value]) => {
-    const year = new Date(date).getFullYear(); // Extract year for x-axis
+
+  const keys = Object.keys(data).filter(key => key !== 'Historical' && key !== 'LTP' && key !== 'Industry' && key !== 'symbol');
+  
+  const chartData = Object.entries(data.Historical || {}).map(([date, value]) => {
+    const year = new Date(date).getFullYear();
     return {
-      fullDate: date, // Keep full date for tooltip
-      year, // Use year for x-axis
+      fullDate: date,
+      year,
       value,
     };
   });
 
-  // Custom tooltip to show full date
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
       return (
@@ -35,27 +36,53 @@ function Historical_data({ data }) {
   };
 
   return (
-    <div className="bg-light" style={{ padding: '20px', height: '400px' }}>
+    <div className="bg-light" style={{ padding: '20px', backgroundColor: '#ffffff', height: '500px' }}>
       <h3 style={{ textAlign: 'center', color: '#2b8a3e' }}>Historical Data</h3>
+      
+      <div className="info-tab" style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          gap: '15px',
+          padding: '10px',
+          backgroundColor: '#f8f9fa',
+          borderRadius: '5px',
+          marginBottom: '20px',
+        }}>
+        {keys.map(key => (
+          <div key={key} style={{
+              flex: '1 1 200px',
+              padding: '15px',
+              backgroundColor: '#ffffff',
+              boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
+              borderRadius: '8px',
+              textAlign: 'center',
+            }}>
+            <strong style={{ fontSize: '1rem', color: '#495057' }}>{key.replace(/_/g, ' ')}:</strong>
+            <p style={{ fontSize: '1.1rem', color: '#333', margin: '5px 0 0' }}>{data[key]}</p>
+          </div>
+        ))}
+      </div>
+
       <p style={{ textAlign: 'center', color: '#6c757d' }}>Data at 1-Month Intervals</p>
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={chartData}>
+      <ResponsiveContainer width="100%" height="80%" style={{ backgroundColor: '#ffffff' }}>
+        <LineChart data={chartData} style={{ backgroundColor: '#ffffff' }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <XAxis 
             dataKey="year" 
             tick={{ fontSize: 12, fill: '#495057' }} 
-            label={{ value: 'Year', position: 'insideBottomRight', offset: -5, fill: '#495057' }} // Add label for the x-axis
+            label={{ value: 'Year', position: 'insideBottomRight', offset: -5, fill: '#495057' }}
           />
           <YAxis tick={{ fontSize: 12, fill: '#495057' }} />
-          <Tooltip content={<CustomTooltip />} /> {/* Use custom tooltip */}
+          <Tooltip content={<CustomTooltip />} />
           <Legend verticalAlign="top" />
           <Line
             type="monotone"
             dataKey="value"
-            stroke="#FF6F61" // Happy color
+            stroke="#FF6F61"
             strokeWidth={2}
             dot={{ stroke: '#FF6F61', strokeWidth: 2 }}
-            activeDot={{ r: 6, fill: '#FF6F61' }} // Change color on hover
+            activeDot={{ r: 6, fill: '#FF6F61' }}
             animationDuration={500}
           />
         </LineChart>

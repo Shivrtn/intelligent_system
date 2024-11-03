@@ -7,7 +7,6 @@ import Portfolio from './Portfolio';
 
 import './Home/BalanceSheet.css';
 
-
 import { useState } from "react";
 
 import 'bootstrap/dist/css/bootstrap.min.css';

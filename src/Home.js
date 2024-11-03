@@ -87,11 +87,18 @@ function Home() {
             case 'Income_statement':
                 return <Income_statement data={data?.Income_Statement} />;
             case 'Historical_data':
-                return <Historical_data data={data?.Historical} />;
+                // Include all keys except for BalanceSheet, Income_Statement, and CashFlow_Statement
+                const filteredData = Object.fromEntries(
+                    Object.entries(data || {}).filter(
+                        ([key]) => !['BalanceSheet', 'Income_Statement', 'CashFlow_Statement',"_id"].includes(key)
+                    )
+                );
+                return <Historical_data data={filteredData} />;
             default:
                 return null;
         }
     };
+    
 
     return (
         <div>
