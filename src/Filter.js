@@ -15,7 +15,7 @@ const Filter = () => {
 
     const onSubmit = async () => {
         try {
-            const response = await fetch('https://intelligent-sysetem-backend.onrender.com/filterStocks', {
+            const response = await fetch('http://16.170.249.88:4000/filterStocks', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ text: value }),
@@ -56,7 +56,7 @@ const Filter = () => {
 
     const suggestion_words = async () => {
         setShowWords((prev) => !prev);
-        const new_words = await fetch('https://intelligent-sysetem-backend.onrender.com/Columns')
+        const new_words = await fetch('http://16.170.249.88:4000/Columns')
             .then(response => response.json().catch(error => console.log(error)));
         setWords(new_words.cols);
     };

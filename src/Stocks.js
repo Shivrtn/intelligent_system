@@ -13,7 +13,7 @@ function Stocks() {
     // Function to fetch stock data from the API
     const fetchStockData = async () => {
         try {
-            const response = await fetch('https://intelligent-sysetem-backend.onrender.com/Stocks');
+            const response = await fetch('http://16.170.249.88:4000/Stocks');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
