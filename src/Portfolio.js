@@ -15,7 +15,7 @@ const Portfolio = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://16.170.249.88:4000/portfolio_login', {
+      const response = await axios.post('https://intelligent-sysetem-backend.onrender.com/portfolio_login', {
         id: userId,
         pass: password,
       });
@@ -34,7 +34,7 @@ const Portfolio = () => {
 
   const handleSignup = async () => {
     try {
-      const response = await axios.post('http://16.170.249.88:4000/create_account', {
+      const response = await axios.post('https://intelligent-sysetem-backend.onrender.com/create_account', {
         id: userId,
         pass: password,
       });
@@ -50,7 +50,7 @@ const Portfolio = () => {
 
   const fetchPortfolio = async (id) => {
     try {
-      const response = await axios.post('http://16.170.249.88:4000/portfolio', { id });
+      const response = await axios.post('https://intelligent-sysetem-backend.onrender.com/portfolio', { id });
       setPortfolio(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -61,7 +61,7 @@ const Portfolio = () => {
 
   const handleAddItem = async (symbolId) => {
     try {
-      await axios.put('http://16.170.249.88:4000/portfolio_put', { id: userId, name: symbolId });
+      await axios.put('https://intelligent-sysetem-backend.onrender.com/portfolio_put', { id: userId, name: symbolId });
       fetchPortfolio(userId);
       setMessage('Item added successfully');
     } catch (error) {
@@ -75,7 +75,7 @@ const Portfolio = () => {
     if (window.confirm(`Are you sure you want to remove ${symbol} from your portfolio?`)) {
       try {
 
-        await axios.post('http://16.170.249.88:4000/portfolio_delete', { id: userId, name: id });
+        await axios.post('https://intelligent-sysetem-backend.onrender.com/portfolio_delete', { id: userId, name: id });
         fetchPortfolio(userId);
         setMessage('Item removed successfully');
       } catch (error) {

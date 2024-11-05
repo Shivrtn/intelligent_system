@@ -18,7 +18,7 @@ function Home() {
     // Fetch data based on the provided ID
     const fetchData = async (id) => {
         try {
-            const response = await fetch('http://16.170.249.88:4000/find', {
+            const response = await fetch('https://intelligent-sysetem-backend.onrender.com/find', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ function Home() {
 
         if (text.length > 0) {
             try {
-                const response = await fetch('http://16.170.249.88:4000/suggestion', {
+                const response = await fetch('https://intelligent-sysetem-backend.onrender.com/suggestion', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
