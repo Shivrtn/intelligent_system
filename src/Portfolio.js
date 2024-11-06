@@ -70,7 +70,7 @@ const Portfolio = () => {
     }
   };
 
-  const handleRemoveItem = async (symbol, id) => {
+  const handleRemoveItem = async (symbol, id,item) => {
 
     if (window.confirm(`Are you sure you want to remove ${symbol} from your portfolio?`)) {
       try {

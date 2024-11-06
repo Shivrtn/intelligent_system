@@ -285,3 +285,56 @@ html, body, #root {
 .main_page{
   background-color: #aec6cf;
 }
+.nav-link.main_page.set {
+  border: 2px solid black !important; /* Use !important to force application */
+}
+
+.nav-link.main_page.unset {
+  border: 1px solid black !important;
+}
+
+.dark-background {
+  background-color: #333 !important;  /* Darker background color */
+  color: white !important;  /* Make text white to contrast with the dark background */
+}
+
+
+
+/* Main container to ensure content fills the screen */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Footer style */
+.footer {
+  background-color: #333; /* Dark background for footer */
+  color: white; /* White text */
+  padding: 10px 0; /* Slimmer padding */
+  text-align: center;
+  width: 100%;
+  position: relative; /* Relative positioning to allow natural flow */
+  z-index: 100;
+}
+
+.footer a {
+  color: #f8f9fa; /* Light color for the link */
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+/* Main content should expand to fill the remaining space */
+.content {
+  flex-grow: 1; /* Makes sure the content takes up all available space */
+}
+
+/* Responsive Styles for Mobile and Desktop */
+

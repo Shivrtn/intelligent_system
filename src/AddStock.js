@@ -7,7 +7,7 @@ const AddStock = ({ userId, onAddItem }) => {
 
   const fetchSuggestions = async (text) => {
     try {
-      const response = await axios.post('http://16.170.249.88:4000/suggestion', { searchText: text });
+      const response = await axios.post('https://intelligent-sysetem-backend.onrender.com/suggestion', { searchText: text });
       setSuggestions(response.data);
     } catch (error) {
       console.error('Error fetching suggestions:', error);

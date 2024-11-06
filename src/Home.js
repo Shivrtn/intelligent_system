@@ -98,71 +98,82 @@ function Home() {
                 return null;
         }
     };
+  
+        return (
+            <div>
+                {!showNavbar ? (
+                    <div className="w-100 h-100 max_h home-body d-flex justify-content-center">
+                        <div className="home_div d-flex flex-column align-items-center justify-content-center">
+                            <input
+                                className="px-2 mb-2"
+                                placeholder="ENTER STOCK SYMBOL"
+                                value={searchText}
+                                onChange={handleSearchChange}
+                            />
+                            {suggestions.length > 0 && (
+                                <ul className="suggestions-list">
+                                    {suggestions.map((suggestion) => (
+                                        <li
+                                            key={suggestion._id}
+                                            onClick={() => handleSuggestionClick(suggestion._id)}
+                                            className="suggestion-item"
+                                        >
+                                            {suggestion.value}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                    </div>
+                ) : (
+                    <div className="h-main">
+                        <div className="navbar container-fluid m-0 p-0 d-flex justify-content-between h-nav fs-6">
+                            <button
+                                className={`nav-link page h_1 rounded border border-dark flex-fill mx-1 ${activeComponent === 'Balance_sheet' ? 'dark-background' : ''}`}
+                                onClick={() => setActiveComponent('Balance_sheet')}
+                            >
+                                Balance <br />Sheet
+                            </button>
+                            <button
+                                className={`nav-link page h_1 rounded border border-dark flex-fill mx-1 ${activeComponent === 'Cash_flow' ? 'dark-background' : ''}`}
+                                onClick={() => setActiveComponent('Cash_flow')}
+                            >
+                                Cash<br />Flow
+                            </button>
+                            <button
+                                className={`nav-link page h_1 rounded border border-dark flex-fill mx-1 ${activeComponent === 'Income_statement' ? 'dark-background' : ''}`}
+                                onClick={() => setActiveComponent('Income_statement')}
+                            >
+                                Income<br />Statement
+                            </button>
+                            <button
+                                className={`nav-link page h_1 rounded border border-dark flex-fill mx-1 ${activeComponent === 'Historical_data' ? 'dark-background' : ''}`}
+                                onClick={() => setActiveComponent('Historical_data')}
+                            >
+                                Historical<br />Data
+                            </button>
+                            <div className="h_1 rounded border border-dark flex-fill mx-1">
+                                <div onClick={handleRelianceClick} className="sym">
+                                    <FontAwesomeIcon icon={faSearch} style={{ marginRight: '8px' }} />
+                                    {data?.symbol || "Company Name"}
+                                    <span className="tooltip-text">Click to search the company</span>
+                                </div>
+                                <div className="d-flex">
+                                    <div className="industry ">{data?.Industry || "Company Industry"}</div>
+                                    <div className="ltp ">{data?.LTP || "N/A"}</div>
+                                </div>
+                            </div>
+                        </div>
     
-
-    return (
-        <div>
-            {!showNavbar ? (
-                <div className="w-100 h-100 max_h home-body d-flex justify-content-center">
-                    <div className="home_div d-flex flex-column align-items-center justify-content-center">
-                        <input
-                            className="px-2 mb-2"
-                            placeholder="ENTER STOCK SYMBOL"
-                            value={searchText}
-                            onChange={handleSearchChange}
-                        />
-                        {suggestions.length > 0 && (
-                            <ul className="suggestions-list">
-                                {suggestions.map((suggestion) => (
-                                    <li
-                                        key={suggestion._id}
-                                        onClick={() => handleSuggestionClick(suggestion._id)}
-                                        className="suggestion-item"
-                                    >
-                                        {suggestion.value}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </div>
-                </div>
-            ) : (
-                <div className="h-main">
-                    <div className="navbar container-fluid m-0 p-0 d-flex justify-content-between h-nav fs-6">
-                        <button className="nav-link page h_1 rounded border border-dark flex-fill mx-1" onClick={() => setActiveComponent('Balance_sheet')}>
-                            Balance <br />Sheet
-                        </button>
-                        <button className="nav-link page h_1 rounded border border-dark flex-fill mx-1" onClick={() => setActiveComponent('Cash_flow')}>
-                            Cash<br />Flow
-                        </button>
-                        <button className="nav-link page h_1 rounded border border-dark flex-fill mx-1" onClick={() => setActiveComponent('Income_statement')}>
-                            Income<br />Statement
-                        </button>
-                        <button className="nav-link page h_1 rounded border border-dark flex-fill mx-1" onClick={() => setActiveComponent('Historical_data')}>
-                            Historical<br />Data
-                        </button>
-                        <div className="h_1 rounded border border-dark flex-fill mx-1">
-                        <div onClick={handleRelianceClick} className="sym">
-                            <FontAwesomeIcon icon={faSearch} style={{ marginRight: '8px' }} />
-                            
-                            {data?.symbol || "Company Name"}
-                            <span className="tooltip-text">Click to search the company</span>
-
-                        </div>
-                        <div className="d-flex">
-                            <div className="industry ">{data?.Industry || "Company Industry"}</div>
-                            <div className="ltp ">{data?.LTP || "N/A"}</div>
-                        </div>
+                        <div className="component-container">
+                            {renderActiveComponent()}
                         </div>
                     </div>
-
-                    <div className="component-container">
-                        {renderActiveComponent()}
-                    </div>
-                </div>
-            )}
-        </div>
-    );
-}
+                )}
+            </div>
+        );
+    }
+    
+    
 
 export default Home;
