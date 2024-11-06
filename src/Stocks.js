@@ -11,20 +11,36 @@ function Stocks() {
     const itemsPerPage = 30;
 
     // Function to fetch stock data from the API
-    const fetchStockData = async () => {
+    // Function to fetch stock data from the API
+const fetchStockData = async () => {
+    setLoading(true); // Start loading before the fetch attempt
+    try {
+        // First attempt to fetch from http://13.51.194.144/
+        let response = await fetch('http://13.51.194.144/Stocks');
+        if (!response.ok) {
+            throw new Error('Network response was not ok from the first server');
+        }
+        const data = await response.json();
+        setStocks(data); // Update the state with fetched data
+        return; // If successful, exit the function
+    } catch (error) {
+        console.error("First server failed, trying second server...");
+        // If the first attempt fails, try fetching from the second server
         try {
-            const response = await fetch('https://intelligent-sysetem-backend.onrender.com/Stocks');
+            let response = await fetch('https://intelligent-sysetem-backend.onrender.com/Stocks');
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Network response was not ok from the second server');
             }
             const data = await response.json();
             setStocks(data); // Update the state with fetched data
         } catch (error) {
-            setError(error.message); // Set error message if fetching fails
-        } finally {
-            setLoading(false); // Set loading to false after fetching
+            setError(error.message); // Set error message if both fetch attempts fail
         }
-    };
+    } finally {
+        setLoading(false); // Set loading to false after all attempts
+    }
+};
+
 
     // useEffect to fetch data on component mount
     useEffect(() => {

@@ -15,19 +15,44 @@ const Filter = () => {
 
     const onSubmit = async () => {
         try {
-            const response = await fetch('https://intelligent-sysetem-backend.onrender.com/filterStocks', {
+            // First attempt to fetch from http://13.51.194.144/filterStocks
+            let response = await fetch('http://13.51.194.144/filterStocks', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ text: value }),
             });
-
+    
+            if (!response.ok) {
+                throw new Error('Network response was not ok from the first server');
+            }
+    
             const result = await response.json();
-            setFiltered(result);
+            setFiltered(result); // Set the filtered data from the first request
+            return; // Exit function if the first request is successful
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('First server failed, trying second server...', error);
+            // If the first attempt fails, try the second server
+            try {
+                const response = await fetch('https://intelligent-sysetem-backend.onrender.com/filterStocks', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: value }),
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Network response was not ok from the second server');
+                }
+    
+                const result = await response.json();
+                setFiltered(result); // Set the filtered data from the second request
+            } catch (error) {
+                console.error('Error fetching data from both servers:', error); // Log if both requests fail
+            }
         }
-        setIsSubmitted(true);
+    
+        setIsSubmitted(true); // Set the submission state at the end
     };
+    
 
     const handleSort = (key) => {
         let direction = "ascending";
@@ -56,10 +81,34 @@ const Filter = () => {
 
     const suggestion_words = async () => {
         setShowWords((prev) => !prev);
-        const new_words = await fetch('https://intelligent-sysetem-backend.onrender.com/Columns')
-            .then(response => response.json().catch(error => console.log(error)));
-        setWords(new_words.cols);
+    
+        try {
+            // First attempt to fetch from http://13.51.194.144/Columns
+            let response = await fetch('http://13.51.194.144/Columns');
+            if (!response.ok) {
+                throw new Error('Network response was not ok from the first server');
+            }
+    
+            const new_words = await response.json();
+            setWords(new_words.cols); // Set the words from the first server
+        } catch (error) {
+            console.log('First server failed, trying second server...', error);
+    
+            // If the first attempt fails, try fetching from the second server
+            try {
+                let response = await fetch('https://intelligent-sysetem-backend.onrender.com/Columns');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok from the second server');
+                }
+    
+                const new_words = await response.json();
+                setWords(new_words.cols); // Set the words from the second server
+            } catch (error) {
+                console.log('Error fetching words from both servers:', error); // Log if both requests fail
+            }
+        }
     };
+    
 
     // Pagination handlers
     const handlePageChange = (event) => {

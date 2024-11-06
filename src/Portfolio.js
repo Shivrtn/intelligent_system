@@ -12,78 +12,155 @@ const Portfolio = () => {
   const [message, setMessage] = useState('');
   const [isSigningUp, setIsSigningUp] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
   const handleLogin = async () => {
     try {
-      const response = await axios.post('https://intelligent-sysetem-backend.onrender.com/portfolio_login', {
+      // First attempt to login via http://13.51.194.144/portfolio_login
+      let response = await axios.post('http://13.51.194.144/portfolio_login', {
         id: userId,
         pass: password,
       });
-      if (response.data) {
-        setIsLoggedIn(true);
-        fetchPortfolio(userId);
-        setMessage('');
-      } else {
-        setMessage('Incorrect username or password');
+  
+      if (!response.data) {
+        throw new Error('Incorrect username or password');
       }
+  
+      setIsLoggedIn(true);
+      fetchPortfolio(userId);
+      setMessage('');
     } catch (error) {
       console.error('Error logging in:', error);
-      setMessage('Login failed. Please try again.');
+      // If the first attempt fails, try the second server
+      try {
+        const response = await axios.post('https://intelligent-sysetem-backend.onrender.com/portfolio_login', {
+          id: userId,
+          pass: password,
+        });
+  
+        if (response.data) {
+          setIsLoggedIn(true);
+          fetchPortfolio(userId);
+          setMessage('');
+        } else {
+          setMessage('Incorrect username or password');
+        }
+      } catch (error) {
+        console.error('Error logging in on second server:', error);
+        setMessage('Login failed. Please try again.');
+      }
     }
   };
-
+  
   const handleSignup = async () => {
     try {
-      const response = await axios.post('https://intelligent-sysetem-backend.onrender.com/create_account', {
+      // First attempt to sign up via http://13.51.194.144/create_account
+      let response = await axios.post('http://13.51.194.144/create_account', {
         id: userId,
         pass: password,
       });
+  
       if (response.status === 200) {
         setMessage('Account created successfully. Please log in.');
         setIsSigningUp(false);
+        return;
+      } else {
+        throw new Error('Sign-up failed');
       }
     } catch (error) {
       console.error('Error signing up:', error);
-      setMessage('Sign-up failed. This username may be unavailable.');
+      // If the first attempt fails, try the second server
+      try {
+        const response = await axios.post('https://intelligent-sysetem-backend.onrender.com/create_account', {
+          id: userId,
+          pass: password,
+        });
+  
+        if (response.status === 200) {
+          setMessage('Account created successfully. Please log in.');
+          setIsSigningUp(false);
+        } else {
+          setMessage('Sign-up failed. This username may be unavailable.');
+        }
+      } catch (error) {
+        console.error('Error signing up on second server:', error);
+        setMessage('Sign-up failed. This username may be unavailable.');
+      }
     }
   };
-
+  
   const fetchPortfolio = async (id) => {
     try {
-      const response = await axios.post('https://intelligent-sysetem-backend.onrender.com/portfolio', { id });
+      // First attempt to fetch portfolio via http://13.51.194.144/portfolio
+      let response = await axios.post('http://13.51.194.144/portfolio', { id });
+  
+      if (!response.data) {
+        throw new Error('Failed to fetch portfolio');
+      }
+  
       setPortfolio(response.data);
       setIsLoading(false);
     } catch (error) {
       console.error('Error fetching portfolio:', error);
-      setMessage('Error fetching portfolio data.');
-    }
-  };
-
-  const handleAddItem = async (symbolId) => {
-    try {
-      await axios.put('https://intelligent-sysetem-backend.onrender.com/portfolio_put', { id: userId, name: symbolId });
-      fetchPortfolio(userId);
-      setMessage('Item added successfully');
-    } catch (error) {
-      console.error('Error adding item:', error);
-      setMessage('Failed to add item.');
-    }
-  };
-
-  const handleRemoveItem = async (symbol, id,item) => {
-
-    if (window.confirm(`Are you sure you want to remove ${symbol} from your portfolio?`)) {
+      // If the first attempt fails, try the second server
       try {
-
-        await axios.post('https://intelligent-sysetem-backend.onrender.com/portfolio_delete', { id: userId, name: id });
-        fetchPortfolio(userId);
-        setMessage('Item removed successfully');
+        const response = await axios.post('https://intelligent-sysetem-backend.onrender.com/portfolio', { id });
+  
+        if (response.data) {
+          setPortfolio(response.data);
+          setIsLoading(false);
+        } else {
+          setMessage('Error fetching portfolio data.');
+        }
       } catch (error) {
-        console.error('Error removing item:', error);
-        setMessage('Failed to remove item.');
+        console.error('Error fetching portfolio from second server:', error);
+        setMessage('Error fetching portfolio data.');
       }
     }
   };
+  
+  const handleAddItem = async (symbolId) => {
+    try {
+      // First attempt to add item via http://13.51.194.144/portfolio_put
+      await axios.put('http://13.51.194.144/portfolio_put', { id: userId, name: symbolId });
+      fetchPortfolio(userId);
+      setMessage('Item added successfully');
+      return;
+    } catch (error) {
+      console.error('Error adding item:', error);
+      // If the first attempt fails, try the second server
+      try {
+        await axios.put('https://intelligent-sysetem-backend.onrender.com/portfolio_put', { id: userId, name: symbolId });
+        fetchPortfolio(userId);
+        setMessage('Item added successfully');
+      } catch (error) {
+        console.error('Error adding item on second server:', error);
+        setMessage('Failed to add item.');
+      }
+    }
+  };
+  
+  const handleRemoveItem = async (symbol, id, item) => {
+    if (window.confirm(`Are you sure you want to remove ${symbol} from your portfolio?`)) {
+      try {
+        // First attempt to remove item via http://13.51.194.144/portfolio_delete
+        await axios.post('http://13.51.194.144/portfolio_delete', { id: userId, name: id });
+        fetchPortfolio(userId);
+        setMessage('Item removed successfully');
+        return;
+      } catch (error) {
+        console.error('Error removing item:', error);
+        // If the first attempt fails, try the second server
+        try {
+          await axios.post('https://intelligent-sysetem-backend.onrender.com/portfolio_delete', { id: userId, name: id });
+          fetchPortfolio(userId);
+          setMessage('Item removed successfully');
+        } catch (error) {
+          console.error('Error removing item on second server:', error);
+          setMessage('Failed to remove item.');
+        }
+      }
+    }
+  };
+  
 
   return (
     <div className="portfolio-container1">
