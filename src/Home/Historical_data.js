@@ -36,37 +36,24 @@ function Historical_data({ data }) {
   };
 
   return (
-    <div className="bg-light" style={{ padding: '20px', backgroundColor: '#ffffff', height: '500px' }}>
-      <h3 style={{ textAlign: 'center', color: '#2b8a3e' }}>Historical Data</h3>
+    <div className="bg-light p-4" style={{ backgroundColor: '#ffffff' }}>
+      <h3 className="text-center text-success mb-4">Historical Data</h3>
       
-      <div className="info-tab" style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          gap: '15px',
-          padding: '10px',
-          backgroundColor: '#f8f9fa',
-          borderRadius: '5px',
-          marginBottom: '20px',
-        }}>
+      <div className="info-tab d-flex flex-wrap justify-content-center gap-3 mb-4">
         {keys.map(key => (
-          <div key={key} style={{
-              flex: '1 1 200px',
-              padding: '15px',
-              backgroundColor: '#ffffff',
-              boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
-              borderRadius: '8px',
-              textAlign: 'center',
-            }}>
-            <strong style={{ fontSize: '1rem', color: '#495057' }}>{key.replace(/_/g, ' ')}:</strong>
-            <p style={{ fontSize: '1.1rem', color: '#333', margin: '5px 0 0' }}>{data[key]}</p>
+          <div key={key} className="col-12 col-md-4 col-lg-3 p-3 bg-white shadow-sm rounded text-center">
+            <strong className="d-block mb-2" style={{ fontSize: '1rem', color: '#495057' }}>
+              {key.replace(/_/g, ' ')}:
+            </strong>
+            <p style={{ fontSize: '1.1rem', color: '#333' }}>{data[key]}</p>
           </div>
         ))}
       </div>
 
-      <p style={{ textAlign: 'center', color: '#6c757d' }}>Data at 1-Month Intervals</p>
-      <ResponsiveContainer width="100%" height="80%" style={{ backgroundColor: '#ffffff' }}>
-        <LineChart data={chartData} style={{ backgroundColor: '#ffffff' }}>
+      <p className="text-center text-muted mb-4">Data at 1-Month Intervals</p>
+      
+      <ResponsiveContainer width="100%" height={300} className="mb-4">
+        <LineChart data={chartData}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <XAxis 
             dataKey="year" 
