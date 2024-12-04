@@ -7,8 +7,8 @@ const AddStock = ({ userId, onAddItem }) => {
 
   const fetchSuggestions = async (text) => {
     try {
-        // First attempt to fetch from http://13.51.194.144/suggestion
-        let response = await axios.post('http://13.51.194.144/suggestion', { searchText: text });
+        // First attempt to fetch from https://13.51.194.144/suggestion
+        let response = await axios.post('https://13.51.194.144/suggestion', { searchText: text });
         setSuggestions(response.data); // Set suggestions if the first request is successful
         return; // Exit function if the first request succeeds
     } catch (error) {

@@ -15,8 +15,8 @@ function Stocks() {
 const fetchStockData = async () => {
     setLoading(true); // Start loading before the fetch attempt
     try {
-        // First attempt to fetch from http://13.51.194.144/
-        let response = await fetch('http://13.51.194.144/Stocks');
+        // First attempt to fetch from https://13.51.194.144/
+        let response = await fetch('https://13.51.194.144/Stocks');
         if (!response.ok) {
             throw new Error('Network response was not ok from the first server');
         }

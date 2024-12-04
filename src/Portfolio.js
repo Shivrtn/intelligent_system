@@ -14,8 +14,8 @@ const Portfolio = () => {
   const [isLoading, setIsLoading] = useState(true);
   const handleLogin = async () => {
     try {
-      // First attempt to login via http://13.51.194.144/portfolio_login
-      let response = await axios.post('http://13.51.194.144/portfolio_login', {
+      // First attempt to login via https://13.51.194.144/portfolio_login
+      let response = await axios.post('https://13.51.194.144/portfolio_login', {
         id: userId,
         pass: password,
       });
@@ -52,8 +52,8 @@ const Portfolio = () => {
   
   const handleSignup = async () => {
     try {
-      // First attempt to sign up via http://13.51.194.144/create_account
-      let response = await axios.post('http://13.51.194.144/create_account', {
+      // First attempt to sign up via https://13.51.194.144/create_account
+      let response = await axios.post('https://13.51.194.144/create_account', {
         id: userId,
         pass: password,
       });
@@ -89,8 +89,8 @@ const Portfolio = () => {
   
   const fetchPortfolio = async (id) => {
     try {
-      // First attempt to fetch portfolio via http://13.51.194.144/portfolio
-      let response = await axios.post('http://13.51.194.144/portfolio', { id });
+      // First attempt to fetch portfolio via https://13.51.194.144/portfolio
+      let response = await axios.post('https://13.51.194.144/portfolio', { id });
   
       if (!response.data) {
         throw new Error('Failed to fetch portfolio');
@@ -119,8 +119,8 @@ const Portfolio = () => {
   
   const handleAddItem = async (symbolId) => {
     try {
-      // First attempt to add item via http://13.51.194.144/portfolio_put
-      await axios.put('http://13.51.194.144/portfolio_put', { id: userId, name: symbolId });
+      // First attempt to add item via https://13.51.194.144/portfolio_put
+      await axios.put('https://13.51.194.144/portfolio_put', { id: userId, name: symbolId });
       fetchPortfolio(userId);
       setMessage('Item added successfully');
       return;
@@ -141,8 +141,8 @@ const Portfolio = () => {
   const handleRemoveItem = async (symbol, id, item) => {
     if (window.confirm(`Are you sure you want to remove ${symbol} from your portfolio?`)) {
       try {
-        // First attempt to remove item via http://13.51.194.144/portfolio_delete
-        await axios.post('http://13.51.194.144/portfolio_delete', { id: userId, name: id });
+        // First attempt to remove item via https://13.51.194.144/portfolio_delete
+        await axios.post('https://13.51.194.144/portfolio_delete', { id: userId, name: id });
         fetchPortfolio(userId);
         setMessage('Item removed successfully');
         return;

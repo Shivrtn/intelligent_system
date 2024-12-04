@@ -15,8 +15,8 @@ const Filter = () => {
 
     const onSubmit = async () => {
         try {
-            // First attempt to fetch from http://13.51.194.144/filterStocks
-            let response = await fetch('http://13.51.194.144/filterStocks', {
+            // First attempt to fetch from https://13.51.194.144/filterStocks
+            let response = await fetch('https://13.51.194.144/filterStocks', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ text: value }),
@@ -83,8 +83,8 @@ const Filter = () => {
         setShowWords((prev) => !prev);
     
         try {
-            // First attempt to fetch from http://13.51.194.144/Columns
-            let response = await fetch('http://13.51.194.144/Columns');
+            // First attempt to fetch from https://13.51.194.144/Columns
+            let response = await fetch('https://13.51.194.144/Columns');
             if (!response.ok) {
                 throw new Error('Network response was not ok from the first server');
             }

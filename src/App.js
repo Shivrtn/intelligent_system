@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, Navigate } from 'react-router-dom';
 import Home from './Home';
 import Stocks from './Stocks';
 import Filter from './Filter';
@@ -75,6 +75,9 @@ function App() {
           <Route path="/stocks" element={<Stocks />} />
           <Route path="/filter" element={<Filter />} />
           <Route path="/portfolio" element={<Portfolio />} />
+          
+          {/* Catch-all route that redirects to Home */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
 
         {/* Footer Section */}

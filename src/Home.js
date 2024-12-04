@@ -19,7 +19,7 @@ function Home() {
     const fetchData = async (id) => {
         try {
           // First attempt to fetch data from the primary server
-          let response = await fetch('http://13.51.194.144/find', {
+          let response = await fetch('https://13.51.194.144/find', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ function Home() {
         if (text.length > 0) {
           try {
             // First attempt to fetch suggestions from the primary server
-            let response = await fetch('http://13.51.194.144/suggestion', {
+            let response = await fetch('https://13.51.194.144/suggestion', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
