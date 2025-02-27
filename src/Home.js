@@ -17,22 +17,8 @@ function Home() {
 
     // Fetch data based on the provided ID
     const fetchData = async (id) => {
-        try {
-          // First attempt to fetch data from the primary server
+      
          
-      
-          if (!response.ok) {
-            throw new Error('Failed to fetch data');
-          }
-      
-          const result = await response.json();
-          setData(result);
-          setShowNavbar(true);
-          setActiveComponent('Balance_sheet'); // Show Balance Sheet by default
-          return;
-        } catch (error) {
-          console.error('Error fetching data from primary server:', error);
-          // If the first attempt fails, try the secondary server
           try {
             const response = await fetch('https://intelligent-sysetem-backend.onrender.com/find', {
               method: 'POST',
@@ -56,8 +42,7 @@ function Home() {
           } catch (error) {
             console.error('Error fetching data from secondary server:', error);
           }
-        }
-      };
+        };
       
       // Handle search input change
       const handleSearchChange = async (e) => {
