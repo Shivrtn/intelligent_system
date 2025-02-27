@@ -19,16 +19,7 @@ function Home() {
     const fetchData = async (id) => {
         try {
           // First attempt to fetch data from the primary server
-          let response = await fetch('https://13.51.194.144/find', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              collectionName: 'Data',
-              query: { _id: id },
-            }),
-          });
+         
       
           if (!response.ok) {
             throw new Error('Failed to fetch data');
@@ -76,13 +67,7 @@ function Home() {
         if (text.length > 0) {
           try {
             // First attempt to fetch suggestions from the primary server
-            let response = await fetch('https://13.51.194.144/suggestion', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ searchText: text }),
-            });
+           
       
             if (!response.ok) {
               throw new Error('Failed to fetch suggestions');
