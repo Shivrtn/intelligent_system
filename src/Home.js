@@ -16,119 +16,145 @@ function Home() {
     const [suggestions, setSuggestions] = useState([]); // State for suggestions
 
     // Fetch data based on the provided ID
- const fetchData = async (id) => {
-  try {
-    const response = await fetch('https://intelligent-sysetem-backend.onrender.com/find', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        collectionName: 'Data',
-        query: { _id: id },
-      }),
-    });
-
-    if (response.ok) {
-      const result = await response.json();
-      setData(result);
-      setShowNavbar(true);
-      setActiveComponent('Balance_sheet'); // Show Balance Sheet by default
-    } else {
-      console.error('Failed to fetch data from the second server');
-    }
-  } catch (error) {
-    console.error('Error fetching data from secondary server:', error);
-  }
-};
-
-// Handle search input change
-const handleSearchChange = async (e) => {
-  const text = e.target.value;
-  setSearchText(text);
-
-  if (text.length > 0) {
-    try {
-      // First attempt to fetch suggestions from the primary server
-      const response = await fetch('https://primary-server-url.com/suggestions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ searchText: text }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch suggestions');
-      }
-
-      const result = await response.json();
-      setSuggestions(result); // Set suggestions based on input
-      return;
-    } catch (error) {
-      console.error('Error fetching suggestions from primary server:', error);
-
-      // If the first attempt fails, try the secondary server
-      try {
-        const response = await fetch('https://intelligent-sysetem-backend.onrender.com/suggestion', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ searchText: text }),
-        });
-
-        if (response.ok) {
+    const fetchData = async (id) => {
+        try {
+          // First attempt to fetch data from the primary server
+          let response = await fetch('https://13.51.194.144/find', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              collectionName: 'Data',
+              query: { _id: id },
+            }),
+          });
+      
+          if (!response.ok) {
+            throw new Error('Failed to fetch data');
+          }
+      
           const result = await response.json();
-          setSuggestions(result); // Set suggestions based on input
-        } else {
-          console.error('Failed to fetch suggestions from the second server');
+          setData(result);
+          setShowNavbar(true);
+          setActiveComponent('Balance_sheet'); // Show Balance Sheet by default
+          return;
+        } catch (error) {
+          console.error('Error fetching data from primary server:', error);
+          // If the first attempt fails, try the secondary server
+          try {
+            const response = await fetch('https://intelligent-sysetem-backend.onrender.com/find', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                collectionName: 'Data',
+                query: { _id: id },
+              }),
+            });
+      
+            if (response.ok) {
+              const result = await response.json();
+              setData(result);
+              setShowNavbar(true);
+              setActiveComponent('Balance_sheet'); // Show Balance Sheet by default
+            } else {
+              console.error('Failed to fetch data from the second server');
+            }
+          } catch (error) {
+            console.error('Error fetching data from secondary server:', error);
+          }
         }
-      } catch (error) {
-        console.error('Error fetching suggestions from secondary server:', error);
-      }
-    }
-  } else {
-    setSuggestions([]); // Clear suggestions if input is empty
-  }
-};
+      };
+      
+      // Handle search input change
+      const handleSearchChange = async (e) => {
+        const text = e.target.value;
+        setSearchText(text);
+      
+        if (text.length > 0) {
+          try {
+            // First attempt to fetch suggestions from the primary server
+            let response = await fetch('https://13.51.194.144/suggestion', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ searchText: text }),
+            });
+      
+            if (!response.ok) {
+              throw new Error('Failed to fetch suggestions');
+            }
+      
+            const result = await response.json();
+            setSuggestions(result); // Set suggestions based on input
+            return;
+          } catch (error) {
+            console.error('Error fetching suggestions from primary server:', error);
+            // If the first attempt fails, try the secondary server
+            try {
+              const response = await fetch('https://intelligent-sysetem-backend.onrender.com/suggestion', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ searchText: text }),
+              });
+      
+              if (response.ok) {
+                const result = await response.json();
+                setSuggestions(result); // Set suggestions based on input
+              } else {
+                console.error('Failed to fetch suggestions from the second server');
+              }
+            } catch (error) {
+              console.error('Error fetching suggestions from secondary server:', error);
+            }
+          }
+        } else {
+          setSuggestions([]); // Clear suggestions if input is empty
+        }
+      };
+      
 
-// Handle clicking a suggestion
-const handleSuggestionClick = (id) => {
-  fetchData(id); // Fetch data based on the suggestion clicked
-  setSearchText(''); // Clear the search text
-  setSuggestions([]); // Clear suggestions after selection
-};
+    // Handle clicking a suggestion
+    const handleSuggestionClick = (id) => {
+        fetchData(id); // Fetch data based on the suggestion clicked
+        setSearchText(""); // Clear the search text
+        setSuggestions([]); // Clear suggestions after selection
+    };
 
-// Handle clicking the company name to reset view
-const handleRelianceClick = () => {
-  setShowNavbar(false); // Hide the navbar and return to search input
-  setActiveComponent(null); // Reset active component
-  setData(null); // Optionally clear the data state if desired
-};
+    // Handle clicking the company name to reset view
+    const handleRelianceClick = () => {
+        setShowNavbar(false); // Hide the navbar and return to search input
+        setActiveComponent(null); // Reset active component
+        setData(null); // Optionally clear the data state if desired
+    };
 
-// Render the active component based on state
-const renderActiveComponent = () => {
-  switch (activeComponent) {
-    case 'Balance_sheet':
-      return <Balance_sheet data={data?.BalanceSheet} />;
-    case 'Cash_flow':
-      return <Cash_flow data={data?.CashFlow_Statement} />;
-    case 'Income_statement':
-      return <Income_statement data={data?.Income_Statement} />;
-    case 'Historical_data':
-      // Include all keys except for BalanceSheet, Income_Statement, and CashFlow_Statement
-      const filteredData = Object.fromEntries(
-        Object.entries(data || {}).filter(
-          ([key]) => !['BalanceSheet', 'Income_Statement', 'CashFlow_Statement', '_id'].includes(key)
-        )
-      );
-      return <Historical_data data={filteredData} />;
-    default:
-      return null;
-  }
-};
-
+    // Render the active component based on state
+    const renderActiveComponent = () => {
+        switch (activeComponent) {
+            case 'Balance_sheet':
+                return <Balance_sheet data={data?.BalanceSheet} />;
+            case 'Cash_flow':
+                return <Cash_flow data={data?.CashFlow_Statement} />;
+            case 'Income_statement':
+                return <Income_statement data={data?.Income_Statement} />;
+            case 'Historical_data':
+                // Include all keys except for BalanceSheet, Income_Statement, and CashFlow_Statement
+                const filteredData = Object.fromEntries(
+                    Object.entries(data || {}).filter(
+                        ([key]) => !['BalanceSheet', 'Income_Statement', 'CashFlow_Statement',"_id"].includes(key)
+                    )
+                );
+                return <Historical_data data={filteredData} />;
+            default:
+                return null;
+        }
+    };
+  
         return (
             <div>
                 {!showNavbar ? (

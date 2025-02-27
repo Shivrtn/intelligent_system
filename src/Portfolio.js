@@ -12,10 +12,25 @@ const Portfolio = () => {
   const [message, setMessage] = useState('');
   const [isSigningUp, setIsSigningUp] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  
   const handleLogin = async () => {
     try {
-      
+      // First attempt to login via https://13.51.194.144/portfolio_login
+      let response = await axios.post('https://13.51.194.144/portfolio_login', {
+        id: userId,
+        pass: password,
+      });
+  
+      if (!response.data) {
+        throw new Error('Incorrect username or password');
+      }
+  
+      setIsLoggedIn(true);
+      fetchPortfolio(userId);
+      setMessage('');
+    } catch (error) {
+      console.error('Error logging in:', error);
+      // If the first attempt fails, try the second server
+      try {
         const response = await axios.post('https://intelligent-sysetem-backend.onrender.com/portfolio_login', {
           id: userId,
           pass: password,
@@ -33,11 +48,26 @@ const Portfolio = () => {
         setMessage('Login failed. Please try again.');
       }
     }
-  ;
+  };
   
   const handleSignup = async () => {
-    
-    
+    try {
+      // First attempt to sign up via https://13.51.194.144/create_account
+      let response = await axios.post('https://13.51.194.144/create_account', {
+        id: userId,
+        pass: password,
+      });
+  
+      if (response.status === 200) {
+        setMessage('Account created successfully. Please log in.');
+        setIsSigningUp(false);
+        return;
+      } else {
+        throw new Error('Sign-up failed');
+      }
+    } catch (error) {
+      console.error('Error signing up:', error);
+      // If the first attempt fails, try the second server
       try {
         const response = await axios.post('https://intelligent-sysetem-backend.onrender.com/create_account', {
           id: userId,
@@ -55,10 +85,21 @@ const Portfolio = () => {
         setMessage('Sign-up failed. This username may be unavailable.');
       }
     }
-  ;
+  };
   
   const fetchPortfolio = async (id) => {
+    try {
+      // First attempt to fetch portfolio via https://13.51.194.144/portfolio
+      let response = await axios.post('https://13.51.194.144/portfolio', { id });
   
+      if (!response.data) {
+        throw new Error('Failed to fetch portfolio');
+      }
+  
+      setPortfolio(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching portfolio:', error);
       // If the first attempt fails, try the second server
       try {
         const response = await axios.post('https://intelligent-sysetem-backend.onrender.com/portfolio', { id });
@@ -74,11 +115,18 @@ const Portfolio = () => {
         setMessage('Error fetching portfolio data.');
       }
     }
-  ;
+  };
   
   const handleAddItem = async (symbolId) => {
-    
-   
+    try {
+      // First attempt to add item via https://13.51.194.144/portfolio_put
+      await axios.put('https://13.51.194.144/portfolio_put', { id: userId, name: symbolId });
+      fetchPortfolio(userId);
+      setMessage('Item added successfully');
+      return;
+    } catch (error) {
+      console.error('Error adding item:', error);
+      // If the first attempt fails, try the second server
       try {
         await axios.put('https://intelligent-sysetem-backend.onrender.com/portfolio_put', { id: userId, name: symbolId });
         fetchPortfolio(userId);
@@ -88,10 +136,19 @@ const Portfolio = () => {
         setMessage('Failed to add item.');
       }
     }
-  ;
+  };
   
   const handleRemoveItem = async (symbol, id, item) => {
     if (window.confirm(`Are you sure you want to remove ${symbol} from your portfolio?`)) {
+      try {
+        // First attempt to remove item via https://13.51.194.144/portfolio_delete
+        await axios.post('https://13.51.194.144/portfolio_delete', { id: userId, name: id });
+        fetchPortfolio(userId);
+        setMessage('Item removed successfully');
+        return;
+      } catch (error) {
+        console.error('Error removing item:', error);
+        // If the first attempt fails, try the second server
         try {
           await axios.post('https://intelligent-sysetem-backend.onrender.com/portfolio_delete', { id: userId, name: id });
           fetchPortfolio(userId);
@@ -102,7 +159,7 @@ const Portfolio = () => {
         }
       }
     }
-  ;
+  };
   
 
   return (
